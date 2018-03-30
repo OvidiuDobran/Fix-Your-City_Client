@@ -1,6 +1,7 @@
 package com.example.ovi.fixyourcity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,45 +35,52 @@ class SignupPage extends MyRelativeLayout{
             addView(signup,signupLayoutParams);
 
             password2=new EditText(getContext());
-            password2.setText("Enter Password");
+            password2.setText("Password");
             password2.setId(Utils.generateId());
             //password.setTransformationMethod(PasswordTransformationMethod.getInstance());
             password2.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             RelativeLayout.LayoutParams password2LayoutParams=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
             password2LayoutParams.addRule(ABOVE,signup.getId());
+            password2LayoutParams.addRule(ALIGN_PARENT_LEFT);
+            password2LayoutParams.addRule(ALIGN_PARENT_RIGHT);
             password2LayoutParams.addRule(CENTER_HORIZONTAL);
-            password2LayoutParams.setMargins(0,0,0,50);
+            password2LayoutParams.setMargins(80,0,80,50);
             addView(password2,password2LayoutParams);
 
             password1=new EditText(getContext());
-            password1.setText("Enter Password");
+            password1.setText("Password");
             password1.setId(Utils.generateId());
-            //password.setTransformationMethod(PasswordTransformationMethod.getInstance());
             password1.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             RelativeLayout.LayoutParams password1LayoutParams=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
             password1LayoutParams.addRule(ABOVE,password2.getId());
+            password1LayoutParams.addRule(ALIGN_PARENT_LEFT);
+            password1LayoutParams.addRule(ALIGN_PARENT_RIGHT);
             password1LayoutParams.addRule(CENTER_HORIZONTAL);
-            password1LayoutParams.setMargins(0,0,0,50);
+            password1LayoutParams.setMargins(80,0,80,50);
             addView(password1,password1LayoutParams);
 
             email=new EditText(getContext());
-            //email.setText("Password");
+            email.setText("Email");
             email.setId(Utils.generateId());
             email.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
             RelativeLayout.LayoutParams emailLayoutParams=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
             emailLayoutParams.addRule(ABOVE,password1.getId());
+            emailLayoutParams.addRule(ALIGN_PARENT_LEFT);
+            emailLayoutParams.addRule(ALIGN_PARENT_RIGHT);
             emailLayoutParams.addRule(CENTER_HORIZONTAL);
-            emailLayoutParams.setMargins(0,0,0,50);
+            emailLayoutParams.setMargins(80,0,80,50);
             addView(email,emailLayoutParams);
 
-            TextView loginText=new TextView(getContext());
-            loginText.setText("Sign Up");
-            loginText.setId(Utils.generateId());
-            RelativeLayout.LayoutParams loginTextLayoutParams=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-            loginTextLayoutParams.addRule(ALIGN_PARENT_TOP);
-            emailLayoutParams.addRule(CENTER_HORIZONTAL);
-            loginTextLayoutParams.setMargins(0,0,0,30);
-            addView(loginText,loginTextLayoutParams);
+            TextView signupText=new TextView(getContext());
+            signupText.setText("Sign Up");
+            signupText.setTextSize(25);
+            signupText.setTextColor(Color.BLACK);
+            signupText.setId(Utils.generateId());
+            RelativeLayout.LayoutParams signupTextLayoutParams=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+            signupTextLayoutParams.addRule(ALIGN_PARENT_TOP);
+            signupTextLayoutParams.addRule(CENTER_HORIZONTAL);
+            signupTextLayoutParams.setMargins(0,0,0,30);
+            addView(signupText,signupTextLayoutParams);
         }
     }
 

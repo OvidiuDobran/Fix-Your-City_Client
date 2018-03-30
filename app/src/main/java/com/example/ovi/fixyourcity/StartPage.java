@@ -2,6 +2,7 @@ package com.example.ovi.fixyourcity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -41,10 +42,12 @@ public class StartPage extends MyRelativeLayout{
 
         TextView welcome=new TextView(getContext());
         welcome.setText("Welcome!");
+        welcome.setTextSize(25);
+        welcome.setTextColor(Color.BLACK);
         welcome.setId(Utils.generateId());
         RelativeLayout.LayoutParams welcomeLayoutParams=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
         welcomeLayoutParams.addRule(ALIGN_PARENT_TOP);
-        welcomeLayoutParams.setMargins(30,0,0,20);
+        welcomeLayoutParams.setMargins(30,30,0,20);
         addView(welcome,welcomeLayoutParams);
 
     }
