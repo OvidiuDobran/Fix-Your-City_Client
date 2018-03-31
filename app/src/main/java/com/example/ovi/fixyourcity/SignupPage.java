@@ -1,8 +1,11 @@
 package com.example.ovi.fixyourcity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.text.Editable;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -12,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Ovi on 3/30/2018.
@@ -22,6 +26,9 @@ class SignupPage extends MyRelativeLayout {
     protected EditText emailEditText;
     protected EditText password1EditText;
     protected EditText password2EditText;
+    protected boolean emailEntered = false;
+    protected boolean password1Entered = false;
+    protected boolean password2Entered = false;
 
     public SignupPage(Context context) {
         super(context);
@@ -31,7 +38,7 @@ class SignupPage extends MyRelativeLayout {
     protected void createContent() {
         {
             signupButton = new Button(getContext());
-            signupButton.setText("Log In");
+            signupButton.setText("Sign Up");
             signupButton.setId(Utils.generateId());
             RelativeLayout.LayoutParams signupLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             signupLayoutParams.addRule(ALIGN_PARENT_BOTTOM);
@@ -40,7 +47,7 @@ class SignupPage extends MyRelativeLayout {
             addView(signupButton, signupLayoutParams);
 
             password2EditText = new EditText(getContext());
-            password2EditText.setText("Password");
+            password2EditText.setText("Confirm Password");
             password2EditText.setId(Utils.generateId());
             //passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
             password2EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -119,6 +126,13 @@ class SignupPage extends MyRelativeLayout {
             }
         });
 
+        emailEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                emailEntered = true;
+            }
+        });
+
 
         password1EditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -147,6 +161,13 @@ class SignupPage extends MyRelativeLayout {
             }
         });
 
+        password1EditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                password1Entered = true;
+            }
+        });
+
         password2EditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -159,10 +180,28 @@ class SignupPage extends MyRelativeLayout {
             }
         });
 
+        password2EditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                password2Entered = true;
+            }
+        });
+
         signupButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                getMainActivity().setContentView(getMainActivity().startPage);
+                if ((emailEditText.getText().length() == 0) || (!emailEntered) ||
+                        (password1EditText.getText().length() == 0) || (!password1Entered) ||
+                        (password2EditText.getText().length() == 0) || (!password2Entered)) {
+                    getMainActivity().dialogNotify("Email and password required", "You need to enter an email address and a password");
+                } else if (!password2EditText.getText().toString().equals(password1EditText.getText().toString())) {
+                    getMainActivity().dialogNotify("Confirm password", "The confirmed password does't match");
+                } else {
+                    getMainActivity().makeText("Account created");
+                    getMainActivity().setContentView(getMainActivity().startPage);
+                }
+
+
             }
         });
 

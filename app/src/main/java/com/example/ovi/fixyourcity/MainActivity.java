@@ -1,8 +1,11 @@
 package com.example.ovi.fixyourcity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +27,22 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(startPage);
 
+
+    }
+
+    public void makeText(String text) {
+        Toast.makeText(MainActivity.this, text,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    public void dialogNotify(String title, String message) {
+        //Put up the Yes/No message box
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setPositiveButton("OK", null);
+        builder.show();
     }
 
     @Override
