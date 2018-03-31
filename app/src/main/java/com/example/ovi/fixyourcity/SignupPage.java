@@ -2,6 +2,7 @@ package com.example.ovi.fixyourcity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -199,6 +200,14 @@ class SignupPage extends MyRelativeLayout {
                 } else {
                     getMainActivity().makeText("Account created");
                     getMainActivity().setContentView(getMainActivity().startPage);
+                    //TODO here will be a call to a method that will sent the data to the database
+                    ProgressDialog progress = new ProgressDialog(getMainActivity());
+                    progress.setTitle("Loading");
+                    progress.setMessage("Wait while loading...");
+                    progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+                    progress.show();
+                    // To dismiss the dialog
+                    progress.dismiss();
                 }
 
 

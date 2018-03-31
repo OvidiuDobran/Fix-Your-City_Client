@@ -142,9 +142,8 @@ class LoginPage extends MyRelativeLayout {
                     getMainActivity().dialogNotify("Email and password required", "You need to enter an email address and a password");
                 }  else {
                     getMainActivity().makeText("Logged In");
-                    getMainActivity().email = emailEditText.getText().toString();
-                    getMainActivity().password = passwordEditText.getText().toString();
-                    getMainActivity().problemPage.getTextView().setText(getMainActivity().email + " " + getMainActivity().password);
+                    getMainActivity().user.setEmail(emailEditText.getText().toString());
+                    getMainActivity().user.setPassword(passwordEditText.getText().toString());
                     getMainActivity().setContentView(getMainActivity().problemPage);
                 }
 
