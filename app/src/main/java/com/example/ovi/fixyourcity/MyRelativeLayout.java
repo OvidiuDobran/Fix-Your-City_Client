@@ -19,6 +19,7 @@ public abstract class MyRelativeLayout extends RelativeLayout {
         addBehaviours();
     }
 
+
     protected abstract void createContent();
 
     protected abstract void addBehaviours();

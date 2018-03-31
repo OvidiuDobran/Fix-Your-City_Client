@@ -89,6 +89,7 @@ class SignupPage extends MyRelativeLayout {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void addBehaviours() {
         emailEditText.setOnTouchListener(new View.OnTouchListener() {
@@ -157,6 +158,15 @@ class SignupPage extends MyRelativeLayout {
                 return false;
             }
         });
+
+        signupButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().setContentView(getMainActivity().startPage);
+            }
+        });
+
+
     }
 
 
