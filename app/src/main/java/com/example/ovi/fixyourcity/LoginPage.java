@@ -16,12 +16,13 @@ import android.widget.TextView;
  * Created by Ovi on 3/29/2018.
  */
 
-class LoginPage extends MyRelativeLayout {
+class LoginPage extends MyRelativeLayout implements Refreshable{
     protected Button loginButton;
     protected EditText emailEditText;
     protected EditText passwordEditText;
     protected boolean emailEntered = false;
     protected boolean passwordEntered = false;
+    private TextView loginText;
 
     public LoginPage(Context context) {
         super(context);
@@ -41,7 +42,7 @@ class LoginPage extends MyRelativeLayout {
         passwordEditText = new EditText(getContext());
         passwordEditText.setText("Password");
         passwordEditText.setId(Utils.generateId());
-        passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         RelativeLayout.LayoutParams passwordLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         passwordLayoutParams.addRule(ABOVE, loginButton.getId());
         passwordLayoutParams.addRule(ALIGN_PARENT_LEFT);
@@ -62,17 +63,15 @@ class LoginPage extends MyRelativeLayout {
         emailLayoutParams.setMargins(80, 0, 80, 50);
         addView(emailEditText, emailLayoutParams);
 
-        TextView loginText = new TextView(getContext());
+        loginText = new TextView(getContext());
         loginText.setText("Log In");
         loginText.setTextSize(25);
         loginText.setTextColor(Color.BLACK);
         loginText.setId(Utils.generateId());
         RelativeLayout.LayoutParams loginTextLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         loginTextLayoutParams.addRule(ALIGN_PARENT_TOP);
-        loginTextLayoutParams.addRule(ALIGN_PARENT_LEFT);
-        loginTextLayoutParams.addRule(ALIGN_PARENT_RIGHT);
         loginTextLayoutParams.addRule(CENTER_HORIZONTAL);
-        loginTextLayoutParams.setMargins(80, 0, 80, 30);
+        loginTextLayoutParams.setMargins(0, 40, 0, 0);
         addView(loginText, loginTextLayoutParams);
     }
 
@@ -96,6 +95,7 @@ class LoginPage extends MyRelativeLayout {
                     switch (keyCode) {
                         case KeyEvent.KEYCODE_ENTER:
                             passwordEditText.setText("");
+                            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                             return true;
                         default:
                             break;
@@ -116,6 +116,7 @@ class LoginPage extends MyRelativeLayout {
         passwordEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 passwordEditText.setText("");
                 InputMethodManager imm = (InputMethodManager)
                         getMainActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -151,6 +152,14 @@ class LoginPage extends MyRelativeLayout {
             }
         });
 
+    }
+
+    @Override
+    public void refresh() {
+        passwordEditText.setText("Password");
+        passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+        emailEditText.setText("Email");
     }
 
 }

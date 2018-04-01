@@ -14,15 +14,20 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by Ovi on 3/31/2018.
  */
 
 
-public class ProblemPage extends MyRelativeLayout {
+public class ProblemPage extends MyRelativeLayout implements Refreshable{
 
     private Button sendButton;
     private EditText description;
+
+    //TODO This Text View is only used to demonstrate the functionality of the GPS tracker. To be removed.
+    private TextView coordinatesText;
 
     public ProblemPage(Context context) {
         super(context);
@@ -58,10 +63,17 @@ public class ProblemPage extends MyRelativeLayout {
         RelativeLayout.LayoutParams sendButtonDetails = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         sendButtonDetails.addRule(CENTER_HORIZONTAL);
         sendButtonDetails.addRule(ALIGN_PARENT_BOTTOM);
-        sendButtonDetails.setMargins(0, 0, 0, 30);
+        sendButtonDetails.setMargins(0, 0, 0, 100);
         addView(sendButton, sendButtonDetails);
 
 
+        coordinatesText=new TextView(getContext());
+        coordinatesText.setId(Utils.generateId());
+        RelativeLayout.LayoutParams coordinatesDetails=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+        coordinatesDetails.addRule(CENTER_HORIZONTAL);
+        coordinatesDetails.addRule(BELOW,description.getId());
+        coordinatesDetails.setMargins(0,50,0,0);
+        addView(coordinatesText,coordinatesDetails);
     }
 
     @Override
@@ -72,9 +84,19 @@ public class ProblemPage extends MyRelativeLayout {
                 getMainActivity().requestLocation();
                 getMainActivity().user.setDescription(description.getText().toString());
                 getMainActivity().makeText("Notification sent");
+                getMainActivity().setContentView(getMainActivity().continuePage);
                 //TODO here will be a call to a method that will sent the data to the database
             }
         });
+    }
+
+    @Override
+    public void refresh() {
+        description.setText("");
+        getMainActivity().requestLocation();
+        double longitude = getMainActivity().user.getLongitude();
+        double latitude = getMainActivity().user.getLatitude();
+        coordinatesText.setText("Your coordinates: long="+longitude+"; lat="+ latitude);
     }
 
 

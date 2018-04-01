@@ -22,7 +22,7 @@ import android.widget.Toast;
  * Created by Ovi on 3/30/2018.
  */
 
-class SignupPage extends MyRelativeLayout {
+class SignupPage extends MyRelativeLayout implements Refreshable{
     protected Button signupButton;
     protected EditText emailEditText;
     protected EditText password1EditText;
@@ -50,8 +50,7 @@ class SignupPage extends MyRelativeLayout {
             password2EditText = new EditText(getContext());
             password2EditText.setText("Confirm Password");
             password2EditText.setId(Utils.generateId());
-            //passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            password2EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            password2EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
             RelativeLayout.LayoutParams password2LayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             password2LayoutParams.addRule(ABOVE, signupButton.getId());
             password2LayoutParams.addRule(ALIGN_PARENT_LEFT);
@@ -92,7 +91,7 @@ class SignupPage extends MyRelativeLayout {
             RelativeLayout.LayoutParams signupTextLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             signupTextLayoutParams.addRule(ALIGN_PARENT_TOP);
             signupTextLayoutParams.addRule(CENTER_HORIZONTAL);
-            signupTextLayoutParams.setMargins(0, 0, 0, 30);
+            signupTextLayoutParams.setMargins(0, 40, 0, 0);
             addView(signupText, signupTextLayoutParams);
         }
     }
@@ -118,6 +117,7 @@ class SignupPage extends MyRelativeLayout {
                     switch (keyCode) {
                         case KeyEvent.KEYCODE_ENTER:
                             password1EditText.setText("");
+                            password1EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                             return true;
                         default:
                             break;
@@ -138,6 +138,7 @@ class SignupPage extends MyRelativeLayout {
         password1EditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                password1EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 password1EditText.setText("");
                 InputMethodManager imm = (InputMethodManager)
                         getMainActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -152,6 +153,7 @@ class SignupPage extends MyRelativeLayout {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     switch (keyCode) {
                         case KeyEvent.KEYCODE_ENTER:
+                            password2EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                             password2EditText.setText("");
                             return true;
                         default:
@@ -172,6 +174,7 @@ class SignupPage extends MyRelativeLayout {
         password2EditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                password2EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 password2EditText.setText("");
                 InputMethodManager imm = (InputMethodManager)
                         getMainActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -201,13 +204,6 @@ class SignupPage extends MyRelativeLayout {
                     getMainActivity().makeText("Account created");
                     getMainActivity().setContentView(getMainActivity().startPage);
                     //TODO here will be a call to a method that will sent the data to the database
-                    ProgressDialog progress = new ProgressDialog(getMainActivity());
-                    progress.setTitle("Loading");
-                    progress.setMessage("Wait while loading...");
-                    progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-                    progress.show();
-                    // To dismiss the dialog
-                    progress.dismiss();
                 }
 
 
@@ -215,6 +211,17 @@ class SignupPage extends MyRelativeLayout {
         });
 
 
+    }
+
+    @Override
+    public void refresh() {
+        password2EditText.setText("Confirm Password");
+        password2EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+        password1EditText.setText("Password");
+        password1EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+        emailEditText.setText("Email");
     }
 
 

@@ -28,7 +28,4 @@ public abstract class MyRelativeLayout extends RelativeLayout {
         return mainActivity;
     }
 
-    public void setMainActivity(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-    }
 }

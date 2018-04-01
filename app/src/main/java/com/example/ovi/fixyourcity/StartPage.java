@@ -3,6 +3,7 @@ package com.example.ovi.fixyourcity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +28,9 @@ public class StartPage extends MyRelativeLayout{
         RelativeLayout.LayoutParams signupLayoutParams=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
         signupLayoutParams.addRule(ALIGN_PARENT_BOTTOM);
         signupLayoutParams.addRule(CENTER_HORIZONTAL);
-        signupLayoutParams.setMargins(0,0,0,100);
+        signupLayoutParams.addRule(ALIGN_PARENT_RIGHT);
+        signupLayoutParams.addRule(ALIGN_PARENT_LEFT);
+        signupLayoutParams.setMargins(120,0,120,100);
         addView(signupButton,signupLayoutParams);
 
         loginButton =new Button(getContext());
@@ -36,11 +39,13 @@ public class StartPage extends MyRelativeLayout{
         RelativeLayout.LayoutParams loginLayoutParams=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
         loginLayoutParams.addRule(ABOVE, signupButton.getId());
         loginLayoutParams.addRule(CENTER_HORIZONTAL);
-        loginLayoutParams.setMargins(0,0,0,50);
+        loginLayoutParams.addRule(ALIGN_PARENT_RIGHT);
+        loginLayoutParams.addRule(ALIGN_PARENT_LEFT);
+        loginLayoutParams.setMargins(120,0,120,50);
         addView(loginButton,loginLayoutParams);
 
         TextView welcomeText=new TextView(getContext());
-        welcomeText.setText("Welcome!");
+        welcomeText.setText("Welcome!\nReport the problems\nfrom your city!");
         welcomeText.setTextSize(25);
         welcomeText.setTextColor(Color.BLACK);
         welcomeText.setId(Utils.generateId());

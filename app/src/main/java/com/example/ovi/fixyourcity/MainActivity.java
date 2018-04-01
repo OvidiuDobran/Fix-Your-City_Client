@@ -3,14 +3,10 @@ package com.example.ovi.fixyourcity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected LoginPage loginPage;
     protected SignupPage signupPage;
     protected ProblemPage problemPage;
+    protected ContinuePage continuePage;
     protected View currentView;
     private LocationManager locationManager;
     protected User user;
@@ -34,18 +31,19 @@ public class MainActivity extends AppCompatActivity {
         loginPage = new LoginPage(this);
         signupPage = new SignupPage(this);
         problemPage = new ProblemPage(this);
-        user=new User();
+        continuePage = new ContinuePage(this);
+        user = new User();
 
         setContentView(startPage);
 
     }
 
-    public void requestLocation(){
+    public void requestLocation() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.INTERNET}
-                        ,10);
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}
+                        , 10);
             }
             return;
         }
@@ -71,22 +69,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(getContentView()==loginPage || getContentView()==signupPage){
+        if (getContentView() == loginPage || getContentView() == signupPage) {
             setContentView(startPage);
-        }else if (getContentView()==startPage){
+        } else if (getContentView() == startPage) {
             super.onBackPressed();
+        } else if (getContentView() == problemPage || getContentView()==continuePage) {
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
         }
     }
 
     @Override
-    public void setContentView(View view){
-        if (view instanceof MyRelativeLayout){
-            currentView =view;
+    public void setContentView(View view) {
+        if (view instanceof MyRelativeLayout) {
+            currentView = view;
             super.setContentView(currentView);
+            if (view instanceof Refreshable) {
+                ((Refreshable) view).refresh();
+            }
         }
     }
 
-    public View getContentView(){
+    public View getContentView() {
         return currentView;
     }
 
