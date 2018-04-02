@@ -82,7 +82,7 @@ public class ProblemPage extends MyRelativeLayout implements Refreshable{
             @Override
             public void onClick(View v) {
                 getMainActivity().requestLocation();
-                getMainActivity().user.setDescription(description.getText().toString());
+                getMainActivity().problem.setDescription(description.getText().toString());
                 getMainActivity().makeText("Notification sent");
                 getMainActivity().setContentView(getMainActivity().continuePage);
                 //TODO here will be a call to a method that will sent the data to the database
@@ -94,8 +94,8 @@ public class ProblemPage extends MyRelativeLayout implements Refreshable{
     public void refresh() {
         description.setText("");
         getMainActivity().requestLocation();
-        double longitude = getMainActivity().user.getLongitude();
-        double latitude = getMainActivity().user.getLatitude();
+        String longitude = getMainActivity().problem.getLongitude();
+        String latitude = getMainActivity().problem.getLatitude();
         coordinatesText.setText("Your coordinates: long="+longitude+"; lat="+ latitude);
     }
 

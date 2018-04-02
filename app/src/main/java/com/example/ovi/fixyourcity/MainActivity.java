@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     protected StartPage startPage;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected ContinuePage continuePage;
     protected View currentView;
     private LocationManager locationManager;
+    protected Problem problem;
     protected User user;
 
     @Override
@@ -32,24 +35,42 @@ public class MainActivity extends AppCompatActivity {
         signupPage = new SignupPage(this);
         problemPage = new ProblemPage(this);
         continuePage = new ContinuePage(this);
-        user = new User();
+        user=new User();
+        problem = new Problem();
+        problem.setUser(user);
 
         setContentView(startPage);
 
     }
 
     public void requestLocation() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}
-                        , 10);
+        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = locationManager.getProviders(true);
+        Location location = null;
+        for (String provider : providers) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.INTERNET}
+                            ,10);
+                }
+                return;
             }
-            return;
+            Location l = locationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (location == null || l.getAccuracy() < location.getAccuracy()) {
+                // Found best last known location: %s", l);
+                location = l;
+            }
         }
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        user.setLongitude(location.getLongitude());
-        user.setLatitude(location.getLatitude());
+        if (location != null) {
+            problem.setLongitude(location.getLongitude()+"");
+            problem.setLatitude(location.getLatitude()+"");
+        } else {
+            problem.setLongitude("0");
+            problem.setLatitude("0");
+        }
     }
 
     public void makeText(String text) {
@@ -73,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             setContentView(startPage);
         } else if (getContentView() == startPage) {
             super.onBackPressed();
-        } else if (getContentView() == problemPage || getContentView()==continuePage) {
+        } else if (getContentView() == problemPage || getContentView() == continuePage) {
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(1);
         }
