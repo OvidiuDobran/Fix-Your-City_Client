@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected ContinuePage continuePage;
     protected View currentView;
     private LocationManager locationManager;
+    private HTTPPostHandler postHandler;
     protected Problem problem;
     protected User user;
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         user=new User();
         problem = new Problem();
         problem.setUser(user);
-
+        postHandler=new HTTPPostHandler();
         setContentView(startPage);
 
     }
@@ -116,4 +117,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public HTTPPostHandler getPostHandler() {
+        return postHandler;
+    }
+
+    public void setPostHandler(HTTPPostHandler postHandler) {
+        this.postHandler = postHandler;
+    }
 }

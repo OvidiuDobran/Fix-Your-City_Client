@@ -86,6 +86,9 @@ public class ProblemPage extends MyRelativeLayout implements Refreshable{
                 getMainActivity().makeText("Notification sent");
                 getMainActivity().setContentView(getMainActivity().continuePage);
                 //TODO here will be a call to a method that will sent the data to the database
+
+
+
             }
         });
     }

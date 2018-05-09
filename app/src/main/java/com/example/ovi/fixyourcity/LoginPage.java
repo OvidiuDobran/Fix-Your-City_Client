@@ -16,7 +16,7 @@ import android.widget.TextView;
  * Created by Ovi on 3/29/2018.
  */
 
-class LoginPage extends MyRelativeLayout implements Refreshable{
+class LoginPage extends MyRelativeLayout implements Refreshable {
     protected Button loginButton;
     protected EditText emailEditText;
     protected EditText passwordEditText;
@@ -141,17 +141,27 @@ class LoginPage extends MyRelativeLayout implements Refreshable{
                 if ((emailEditText.getText().length() == 0) || (!emailEntered) ||
                         (passwordEditText.getText().length() == 0) || (!passwordEntered)) {
                     getMainActivity().dialogNotify("Email and password required", "You need to enter an email address and a password");
-                }  else {
-                    getMainActivity().makeText("Logged In");
-                    getMainActivity().user.setEmail(emailEditText.getText().toString());
-                    getMainActivity().user.setPassword(passwordEditText.getText().toString());
-                    getMainActivity().setContentView(getMainActivity().problemPage);
+                } else {
+                    User user = new User(emailEditText.getText().toString(), emailEditText.getText().toString());
+                    String email = emailEditText.getText().toString();
+                    String password = passwordEditText.getText().toString();
+                    if (getUserByEmailAndPassword(email, password) != null) {
+                        getMainActivity().makeText("Logged In");
+                        getMainActivity().user.setEmail(emailEditText.getText().toString());
+                        getMainActivity().user.setPassword(passwordEditText.getText().toString());
+                        getMainActivity().setContentView(getMainActivity().problemPage);
+                    } else {
+                        getMainActivity().dialogNotify("Wrong user", "There is no such user");
+                    }
+
                 }
-
-
             }
-        });
 
+        });
+    }
+
+    private User getUserByEmailAndPassword(String email, String password) {
+        return getMainActivity().getPostHandler().getUserByEmailAndPassword(email, password);
     }
 
     @Override

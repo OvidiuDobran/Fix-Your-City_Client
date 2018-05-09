@@ -1,12 +1,8 @@
 package com.example.ovi.fixyourcity;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.text.Editable;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -16,13 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by Ovi on 3/30/2018.
  */
 
-class SignupPage extends MyRelativeLayout implements Refreshable{
+class SignupPage extends MyRelativeLayout implements Refreshable {
     protected Button signupButton;
     protected EditText emailEditText;
     protected EditText password1EditText;
@@ -201,9 +196,14 @@ class SignupPage extends MyRelativeLayout implements Refreshable{
                 } else if (!password2EditText.getText().toString().equals(password1EditText.getText().toString())) {
                     getMainActivity().dialogNotify("Confirm password", "The confirmed password does't match");
                 } else {
-                    getMainActivity().makeText("Account created");
-                    getMainActivity().setContentView(getMainActivity().startPage);
-                    //TODO here will be a call to a method that will sent the data to the database
+                    User newUser = new User(emailEditText.getText().toString(), password1EditText.getText().toString());
+                    if (userExists(newUser)) {
+                        getMainActivity().dialogNotify("Account exists", "This account already exists! Please, try again!");
+                    } else {
+                        getMainActivity().setContentView(getMainActivity().startPage);
+                        getMainActivity().getPostHandler().addNewUser(newUser);
+                        getMainActivity().makeText("Account created");
+                    }
                 }
 
 
@@ -211,6 +211,10 @@ class SignupPage extends MyRelativeLayout implements Refreshable{
         });
 
 
+    }
+
+    private boolean userExists(User newUser) {
+        return getMainActivity().getPostHandler().userExists(newUser);
     }
 
     @Override
