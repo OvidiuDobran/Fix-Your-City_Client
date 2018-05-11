@@ -145,10 +145,12 @@ class LoginPage extends MyRelativeLayout implements Refreshable {
                     User user = new User(emailEditText.getText().toString(), emailEditText.getText().toString());
                     String email = emailEditText.getText().toString();
                     String password = passwordEditText.getText().toString();
-                    if (getUserByEmailAndPassword(email, password) != null) {
+
+                    User userByEmailAndPassword = getUserByEmailAndPassword(email, password);
+                    if (userByEmailAndPassword != null) {
                         getMainActivity().makeText("Logged In");
-                        getMainActivity().user.setEmail(emailEditText.getText().toString());
-                        getMainActivity().user.setPassword(passwordEditText.getText().toString());
+                        getMainActivity().user=userByEmailAndPassword;
+
                         getMainActivity().setContentView(getMainActivity().problemPage);
                     } else {
                         getMainActivity().dialogNotify("Wrong user", "There is no such user");
