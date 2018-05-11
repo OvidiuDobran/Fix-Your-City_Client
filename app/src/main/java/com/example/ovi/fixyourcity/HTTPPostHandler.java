@@ -1,5 +1,8 @@
 package com.example.ovi.fixyourcity;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.DataOutputStream;
@@ -13,10 +16,10 @@ import java.net.URL;
  * Created by Ovi on 5/9/2018.
  */
 
-public class HTTPPostHandler {
+public class HTTPPostHandler extends AsyncTask<String, Void, String> {
 
     public boolean userExists(User user) {
-        String result = post("userExists", "UserEmail=" + user.getEmail() + ", UserPassword="+user.getPassword());
+        String result = post("userExists", "Email=" + user.getEmail() + ", Pass="+user.getPassword());
         return result.toLowerCase().contains("true");
     }
 
@@ -48,12 +51,17 @@ public class HTTPPostHandler {
 
     public String post(String method, String data) {
         try {
-            String postUrl = "http://192.168.43.233:8081/user/" + method;
+            Log.e(method,data);
+            String postUrl = "http://192.168.43.233:8081/user/"+method;
             URL url = new URL(postUrl);
+            Log.e("URL","after new URL()");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
+            Log.e("con",con.toString());
 
             con.setDoOutput(true);
+
+            Log.e("con",con.toString());
 
             this.sendData(con, data);
 
@@ -67,8 +75,10 @@ public class HTTPPostHandler {
         DataOutputStream wr = null;
         try {
             wr = new DataOutputStream(con.getOutputStream());
+            Log.e("wr",data);
             wr.writeBytes(data);
             wr.flush();
+            Log.e("wr",data);
             wr.close();
         } catch (IOException exception) {
             throw exception;
@@ -107,5 +117,10 @@ public class HTTPPostHandler {
         } catch (IOException ex) {
 
         }
+    }
+
+    @Override
+    protected String doInBackground(String... strings) {
+        return null;
     }
 }
