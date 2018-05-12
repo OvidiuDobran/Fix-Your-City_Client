@@ -201,7 +201,7 @@ class SignupPage extends MyRelativeLayout implements Refreshable {
                         getMainActivity().dialogNotify("Account exists", "This account already exists! Please, try again!");
                     } else {*/
                         getMainActivity().setContentView(getMainActivity().startPage);
-                        getMainActivity().getPostHandler().addNewUser(newUser);
+                        getMainActivity().addNewUser(newUser);
                         getMainActivity().makeText("Account created");
                     //}
                 }

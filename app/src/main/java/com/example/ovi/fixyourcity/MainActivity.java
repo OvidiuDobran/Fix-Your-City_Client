@@ -124,4 +124,9 @@ public class MainActivity extends AppCompatActivity {
     public void setPostHandler(HTTPPostHandler postHandler) {
         this.postHandler = postHandler;
     }
+
+    public void addNewUser(User newUser) {
+        HTTPPostHandler postHandler=new HTTPPostHandler();
+        postHandler.addNewUser(newUser);
+    }
 }
