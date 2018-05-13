@@ -3,6 +3,7 @@ package com.example.ovi.fixyourcity;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -142,16 +143,16 @@ class LoginPage extends MyRelativeLayout implements Refreshable {
                         (passwordEditText.getText().length() == 0) || (!passwordEntered)) {
                     getMainActivity().dialogNotify("Email and password required", "You need to enter an email address and a password");
                 } else {
-                    User user = new User(emailEditText.getText().toString(), emailEditText.getText().toString());
                     String email = emailEditText.getText().toString();
                     String password = passwordEditText.getText().toString();
 
-                    User userByEmailAndPassword = getUserByEmailAndPassword(email, password);
+                    User userByEmailAndPassword = getMainActivity().getUserByEmailAndPassword(email, password);
                     if (userByEmailAndPassword != null) {
                         getMainActivity().makeText("Logged In");
                         getMainActivity().user=userByEmailAndPassword;
-
+                        getMainActivity().problem.setUser(getMainActivity().user);
                         getMainActivity().setContentView(getMainActivity().problemPage);
+                        Log.e("id:"+getMainActivity().user.getId(),"email:"+getMainActivity().user.getEmail()+";password:"+getMainActivity().user.getPassword());
                     } else {
                         getMainActivity().dialogNotify("Wrong user", "There is no such user");
                     }
@@ -162,9 +163,6 @@ class LoginPage extends MyRelativeLayout implements Refreshable {
         });
     }
 
-    private User getUserByEmailAndPassword(String email, String password) {
-        return getMainActivity().getPostHandler().getUserByEmailAndPassword(email, password);
-    }
 
     @Override
     public void refresh() {

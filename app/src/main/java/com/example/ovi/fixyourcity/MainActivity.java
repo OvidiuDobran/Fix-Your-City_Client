@@ -129,4 +129,19 @@ public class MainActivity extends AppCompatActivity {
         HTTPPostHandler postHandler=new HTTPPostHandler();
         postHandler.addNewUser(newUser);
     }
+
+    public boolean userExists(User newUser) {
+        HTTPPostHandler postHandler=new HTTPPostHandler();
+        return postHandler.userExists(newUser);
+    }
+
+    public User getUserByEmailAndPassword(String email, String password) {
+        HTTPPostHandler postHandler=new HTTPPostHandler();
+        return postHandler.getUserByEmailAndPassword(email,password);
+    }
+
+    public void sentProblem() {
+        HTTPPostHandler postHandler=new HTTPPostHandler();
+        postHandler.addProblem(problem);
+    }
 }

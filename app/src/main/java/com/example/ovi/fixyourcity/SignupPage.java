@@ -197,13 +197,13 @@ class SignupPage extends MyRelativeLayout implements Refreshable {
                     getMainActivity().dialogNotify("Confirm password", "The confirmed password does't match");
                 } else {
                     User newUser = new User(emailEditText.getText().toString(), password1EditText.getText().toString());
-                    /*if (userExists(newUser)) {
+                    if (getMainActivity().userExists(newUser)) {
                         getMainActivity().dialogNotify("Account exists", "This account already exists! Please, try again!");
-                    } else {*/
+                    } else {
                         getMainActivity().setContentView(getMainActivity().startPage);
                         getMainActivity().addNewUser(newUser);
                         getMainActivity().makeText("Account created");
-                    //}
+                    }
                 }
 
 
@@ -213,9 +213,6 @@ class SignupPage extends MyRelativeLayout implements Refreshable {
 
     }
 
-    private boolean userExists(User newUser) {
-        return getMainActivity().getPostHandler().userExists(newUser);
-    }
 
     @Override
     public void refresh() {

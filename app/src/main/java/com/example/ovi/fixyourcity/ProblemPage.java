@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Date;
+
 /**
  * Created by Ovi on 3/31/2018.
  */
@@ -83,11 +85,11 @@ public class ProblemPage extends MyRelativeLayout implements Refreshable{
             public void onClick(View v) {
                 getMainActivity().requestLocation();
                 getMainActivity().problem.setDescription(description.getText().toString());
+                getMainActivity().problem.setDate(new Date().toString());
                 getMainActivity().makeText("Notification sent");
                 getMainActivity().setContentView(getMainActivity().continuePage);
                 //TODO here will be a call to a method that will sent the data to the database
-
-
+                getMainActivity().sentProblem();
 
             }
         });
